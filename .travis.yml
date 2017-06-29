@@ -83,7 +83,7 @@ matrix:
     - yarn global add meshblu-connector-pkger meshblu-connector-installer-macos meshblu-connector-uploader-github
     - |
       meshblu-connector-pkger \
-      && meshblu-connector-installer-macos --destination-path=/Library/MeshbluConnectors/configurators/meshblu-json \
+      && meshblu-connector-installer-macos --destination-path=/Library/MeshbluConnectors/configurators/pi-http \
       && meshblu-connector-uploader-github
 env:
   global:
