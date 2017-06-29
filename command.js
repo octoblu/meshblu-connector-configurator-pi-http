@@ -1,26 +1,36 @@
 #!/usr/bin/env node
-const OctoDash = require("octodash")
-const packageJSON = require("./package.json")
-const { MeshbluConnectorConfigurator } = require("./lib/configurator")
+const OctoDash = require('octodash')
+const packageJSON = require('./package.json')
+const { MeshbluConnectorConfigurator } = require('./lib/configurator')
+const { getSerialNumber } = require('./lib/helpers')
 
 const CLI_OPTIONS = [
   {
-    names: ["connector-home"],
-    type: "string",
+    names: ['connector-home'],
+    type: 'string',
     required: true,
-    env: "MESHBLU_CONNECTOR_HOME",
-    help: "Base location of meshblu connectors",
-    helpArg: "PATH",
-    completionType: "file",
+    env: 'MESHBLU_CONNECTOR_HOME',
+    help: 'Base location of meshblu connectors',
+    helpArg: 'PATH',
+    completionType: 'file',
   },
   {
-    names: ["pm2-home"],
-    type: "string",
+    names: ['pm2-home'],
+    type: 'string',
     required: true,
-    env: "MESHBLU_CONNECTOR_PM2_HOME",
-    help: "Base location of meshblu-connector-pm2",
-    helpArg: "PATH",
-    completionType: "file",
+    env: 'MESHBLU_CONNECTOR_PM2_HOME',
+    help: 'Base location of meshblu-connector-pm2',
+    helpArg: 'PATH',
+    completionType: 'file',
+  },
+  {
+    names: ['serial-number'],
+    type: 'string',
+    required: true,
+    env: 'MESHBLU_CONNECTOR_SERIAL_NUMBER',
+    help: 'Serial number override',
+    helpArg: 'NUMBER',
+    default: getSerialNumber(),
   },
 ]
 
@@ -36,8 +46,9 @@ class MeshbluConnectorConfiguratorCommand {
 
   run() {
     const options = this.octoDash.parseOptions()
-    const { connectorHome, pm2Home } = options
-    const configurator = new MeshbluConnectorConfigurator({ connectorHome, pm2Home })
+    const { connectorHome, pm2Home, serialNumber } = options
+
+    const configurator = new MeshbluConnectorConfigurator({ connectorHome, pm2Home, serialNumber })
     return configurator.configurate()
   }
 
@@ -49,7 +60,7 @@ class MeshbluConnectorConfiguratorCommand {
 const command = new MeshbluConnectorConfiguratorCommand({ argv: process.argv })
 command
   .run()
-  .catch(error => {
+  .catch((error) => {
     command.die(error)
   })
   .then(() => {
