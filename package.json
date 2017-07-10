@@ -1,6 +1,6 @@
 {
   "name": "meshblu-connector-configurator-pi-http",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Run meshblu connectors on the pi from a configuration pulled from http",
   "bin": {
     "meshblu-connector-configurator-pi-http": "command.js"
